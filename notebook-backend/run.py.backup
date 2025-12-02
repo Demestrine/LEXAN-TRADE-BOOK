@@ -1,0 +1,22 @@
+# run.py
+from flask import Flask
+from flask_migrate import Migrate
+
+# Import db from app module (same instance models use)
+from app import db
+
+# Import models AFTER db is imported
+from app.models import Folder, Image
+
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notebook.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize db with app
+db.init_app(app)
+
+# Initialize migrate
+migrate = Migrate(app, db)
+
+if __name__ == '__main__':
+    app.run(debug=True)
